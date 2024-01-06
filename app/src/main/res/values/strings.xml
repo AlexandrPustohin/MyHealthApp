@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MyHealthApp</string>
+    <string name="text_press">Давление:</string>
+</resources>
