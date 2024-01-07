@@ -8,12 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myhealthapp.model.HealthInfoItem;
+
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewViewHolder> {
-    private ArrayList<RecyclerViewItem> arrayList;
+    private ArrayList<HealthInfoItem> arrayList;
 
-    public RecyclerViewAdapter(ArrayList<RecyclerViewItem> arrayList) {
+    public RecyclerViewAdapter(ArrayList<HealthInfoItem> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -27,10 +29,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
-        RecyclerViewItem recyclerViewItem = arrayList.get(position);//получаем элемент
+        HealthInfoItem healthInfoItem = arrayList.get(position);//получаем элемент
         //и данные элемента
-        holder.date.setText(recyclerViewItem.getTextDate());
-        holder.press.setText(recyclerViewItem.getTextPress());
+        holder.date.setText(healthInfoItem.getTextDate());
+        holder.info.setText(healthInfoItem.getTextInfo());
+        holder.type.setText(healthInfoItem.getTextType());
     }
 
     @Override
@@ -40,11 +43,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
-        public TextView press;
+        public TextView info;
+        public TextView type;
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
             date  = itemView.findViewById(R.id.textDate);
-            press = itemView.findViewById(R.id.textPress);
+            info = itemView.findViewById(R.id.textInfo);
+            type =  itemView.findViewById(R.id.textType);
         }
     }
 }

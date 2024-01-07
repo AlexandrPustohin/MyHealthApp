@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textType"
             android:layout_width="162dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textDate"
@@ -36,14 +36,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textPress"
+            android:id="@+id/textInfo"
             android:layout_width="238dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignBottom="@+id/textType"
             android:layout_marginStart="0dp"
             android:layout_marginLeft="104dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/textView1"
+            android:layout_toEndOf="@+id/textType"
             android:gravity="center|center_horizontal"
             android:text="120/80"
             android:textColor="@android:color/black"
