@@ -1,32 +1,35 @@
 package com.example.myhealthapp.model;
 
 public class HealthInfoItem {
-    private long id;
+    private int id;
     private String textDate; //дата строкой
     private String textType; //тип показания
     private String textInfo;//значение строкой
+    private String textDescr;
 
     public HealthInfoItem() {
     }
 
-    public HealthInfoItem(long id, String textDate, String textType, String textInfo) {
+    public HealthInfoItem(int id, String textDate, String textType, String textInfo,String textDescr) {
         this.id = id;
         this.textDate = textDate;
         this.textType = textType;
         this.textInfo = textInfo;
+        this.textDescr = textDescr;
     }
 
-    public HealthInfoItem(String textDate, String textType, String textInfo) {
+    public HealthInfoItem(String textDate, String textType, String textInfo, String textDescr) {
         this.textDate = textDate;
         this.textInfo = textInfo;
         this.textType = textType;
+        this.textDescr = textDescr;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -52,5 +55,22 @@ public class HealthInfoItem {
 
     public void setTextInfo(String textInfo) {
         this.textInfo = textInfo;
+    }
+
+    public String getTextDescr() {
+        return textDescr;
+    }
+
+    public void setTextDescr(String textDescr) {
+        this.textDescr = textDescr;
+    }
+
+    @Override
+    public String toString() {
+        return "Показатель" +
+                " № " + id +
+                ", дата " + textDate +
+                ", тип " + textType +
+                ", значение: " + textInfo ;
     }
 }

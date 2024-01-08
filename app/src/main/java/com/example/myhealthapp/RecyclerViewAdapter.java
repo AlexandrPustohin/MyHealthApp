@@ -34,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.date.setText(healthInfoItem.getTextDate());
         holder.info.setText(healthInfoItem.getTextInfo());
         holder.type.setText(healthInfoItem.getTextType());
+        holder.descr.setText(healthInfoItem.getTextDescr());
     }
 
     @Override
@@ -45,11 +46,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView date;
         public TextView info;
         public TextView type;
+        public TextView descr;
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
             date  = itemView.findViewById(R.id.textDate);
             info = itemView.findViewById(R.id.textInfo);
             type =  itemView.findViewById(R.id.textType);
+            descr =  itemView.findViewById(R.id.measurement);
         }
     }
 }
