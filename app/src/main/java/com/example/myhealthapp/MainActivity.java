@@ -30,15 +30,17 @@ public class MainActivity extends AppCompatActivity {
     private Cursor docCursor;
     private SimpleCursorAdapter docAdapter;
     private CursorAdapter cursorAdapter;
+    private FloatingActionButton floatingActionButton;
+    private DataBaseHandler dbh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DataBaseHandler dbh = new DataBaseHandler(this);
+        dbh = new DataBaseHandler(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
+         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

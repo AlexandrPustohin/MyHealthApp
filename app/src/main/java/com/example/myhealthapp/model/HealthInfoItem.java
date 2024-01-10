@@ -25,6 +25,12 @@ public class HealthInfoItem {
         this.textDescr = textDescr;
     }
 
+    public HealthInfoItem(String textDate, String textType, String textInfo) {
+        this.textDate = textDate;
+        this.textType = textType;
+        this.textInfo = textInfo;
+    }
+
     public int getId() {
         return id;
     }

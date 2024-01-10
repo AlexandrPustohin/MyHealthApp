@@ -6,23 +6,40 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.myhealthapp.data.DataBaseHandler;
+import com.example.myhealthapp.model.HealthInfoItem;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class AddHealthInfo extends AppCompatActivity {
     Calendar dateAndTime= Calendar.getInstance();
     private TextView date;
     private TextView time;
+    private Spinner spinner;
+    private Button btnSave;
+    private EditText info;
+    private DataBaseHandler dbh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_health_info);
+        dbh = new DataBaseHandler(this);
         date = findViewById(R.id.data);
         time = findViewById(R.id.time);
         Date currentDT = new Date();
@@ -31,8 +48,36 @@ public class AddHealthInfo extends AppCompatActivity {
 
         SimpleDateFormat dft = new SimpleDateFormat("HH:mm");
         time.setText(dft.format(currentDT.getTime()));
-    }
 
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter =
+                               new ArrayAdapter(this,R.layout.spinner, getArrayType()   );
+        // Определяем разметку для использования при выборе элемента
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        // Применяем адаптер к элементу spinner
+        spinner.setAdapter(adapter);
+
+        info = findViewById(R.id.info);
+        btnSave = findViewById(R.id.button);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dbh.addInfo(getInfo());
+            }
+        });
+
+    }
+    private HealthInfoItem getInfo(){
+        HealthInfoItem hi = new HealthInfoItem();
+        hi.setTextDate(date.getText()+" "+time.getText());
+        hi.setTextType(spinner.getSelectedItem().toString());
+        hi.setTextInfo(info.getText().toString());
+        return hi;
+    }
+    private ArrayList<String> getArrayType(){
+        return dbh.getAllTypes().stream().map(t->t.getName()).collect(Collectors.toCollection(ArrayList::new));
+    }
     // отображаем диалоговое окно для выбора даты
     public void setDate(View v) {
         new DatePickerDialog(AddHealthInfo.this, d,
@@ -84,4 +129,6 @@ public class AddHealthInfo extends AppCompatActivity {
             setInitialDate();
         }
     };
+
+
 }
