@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textType"
+            android:id="@+id/textTypeCard"
             android:layout_width="167dp"
             android:layout_height="35dp"
             android:layout_below="@+id/textDate"
@@ -41,12 +41,12 @@
             android:id="@+id/textInfo"
             android:layout_width="141dp"
             android:layout_height="35dp"
-            android:layout_alignBottom="@+id/textType"
+            android:layout_alignBottom="@+id/textTypeCard"
             android:layout_marginStart="0dp"
             android:layout_marginLeft="104dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/textType"
+            android:layout_toEndOf="@+id/textTypeCard"
             android:gravity="center|center_horizontal"
             android:text="120/80"
             android:textColor="@android:color/black"
@@ -54,10 +54,10 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/measurement"
+            android:id="@+id/measurementCard"
             android:layout_width="95dp"
             android:layout_height="35dp"
-            android:layout_alignBottom="@+id/textType"
+            android:layout_alignBottom="@+id/textTypeCard"
             android:layout_marginStart="0dp"
             android:layout_marginLeft="104dp"
             android:layout_marginBottom="0dp"

@@ -9,32 +9,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhealthapp.model.HealthInfoItem;
+import com.example.myhealthapp.model.Type;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewViewHolder> {
-    private ArrayList<HealthInfoItem> arrayList;
+public class RecyclerViewAdapterType extends RecyclerView.Adapter<RecyclerViewAdapterType.RecyclerViewViewHolder> {
+    private ArrayList<Type> arrayList;
 
-    public RecyclerViewAdapter(ArrayList<HealthInfoItem> arrayList) {
+    public RecyclerViewAdapterType(ArrayList<Type> arrayList) {
         this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
     public RecyclerViewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item_type, parent, false);
         RecyclerViewViewHolder viewHolder = new RecyclerViewViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
-        HealthInfoItem healthInfoItem = arrayList.get(position);//получаем элемент
+        Type typeItem = arrayList.get(position);//получаем элемент
         //и данные элемента
-        holder.date.setText(healthInfoItem.getTextDate());
-        holder.info.setText(healthInfoItem.getTextInfo());
-        holder.type.setText(healthInfoItem.getTextType());
-        holder.descr.setText(healthInfoItem.getTextDescr());
+        holder.textTypeCard.setText(typeItem.getName());
+        holder.measurementCard.setText(typeItem.getDescription());
     }
 
     @Override
@@ -43,16 +42,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
-        public TextView date;
-        public TextView info;
-        public TextView type;
-        public TextView descr;
+        public TextView textTypeCard;
+        public TextView measurementCard;
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
-            date  = itemView.findViewById(R.id.textDate);
-            info = itemView.findViewById(R.id.textInfo);
-            type =  itemView.findViewById(R.id.textTypeCard);
-            descr =  itemView.findViewById(R.id.measurementCard);
+            textTypeCard =  itemView.findViewById(R.id.text_type_card);
+            measurementCard =  itemView.findViewById(R.id.measurement_card);
         }
     }
 }

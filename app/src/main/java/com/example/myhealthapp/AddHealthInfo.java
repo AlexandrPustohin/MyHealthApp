@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -64,6 +65,9 @@ public class AddHealthInfo extends AppCompatActivity {
             public void onClick(View view) {
 
                 dbh.addInfo(getInfo());
+                Intent intent = new Intent(AddHealthInfo.this, MainActivity.class);
+                startActivity(intent);
+
             }
         });
 
