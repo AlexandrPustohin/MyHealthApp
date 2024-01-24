@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myhealthapp.data.DataBaseHandler;
 import com.example.myhealthapp.model.HealthInfoItem;
@@ -31,14 +32,27 @@ public class AddTypeActivity extends AppCompatActivity {
         btnAddType = findViewById(R.id.btn_save_type);
         btnAddType.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                dbh.addType(getInfo());
-                Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {//Глюкоза
+                if(typeExist(name.getText().toString())){
+                    showToast("Уже есть такое измерение!");
+                } else {
+                    dbh.addType(getInfo());
+                    Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
             }
         });
     }
+
+    private void showToast(String text){
+        Toast toast = Toast.makeText(this,text,Toast.LENGTH_LONG);
+        toast.show();
+    }
+    private boolean typeExist(String nameType) {
+        return dbh.getAllTypes().stream().anyMatch(t->t.getName().equalsIgnoreCase(nameType));
+    }
+
     private Type getInfo(){
         Type type = new Type();
         type.setName(name.getText().toString());

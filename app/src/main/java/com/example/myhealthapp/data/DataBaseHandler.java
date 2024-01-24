@@ -44,13 +44,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Util.TABLE_NAME_INFO );
-        String CREATE_INFO_TABLE = "CREATE TABLE "+ Util.TABLE_NAME_INFO + " ( "
-                + Util.INFO_ID+ " INTEGER PRIMARY KEY, "
-                + Util.INFO_DATA+ " INTEGER,"
-                + Util.INFO_TYPE+ " TEXT,"
-                + Util.INFO_INFO+ " TEXT )";
-
-        sqLiteDatabase.execSQL(CREATE_INFO_TABLE);
+        onCreate(sqLiteDatabase);
     }
 
     public void addType(Type type){
@@ -176,7 +170,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 ", t.description as description " +
                 " from "+ Util.TABLE_NAME_INFO + " as hi "+
                 " inner join "+ Util.TABLE_NAME_TYPES+ " as t on ( t." +Util.TYPE_NAME + " = hi." +
-                Util.INFO_TYPE+" ) " ;
+                Util.INFO_TYPE+" ) order by hi.data desc" ;
 
         Log.d("sql: ", query);
 

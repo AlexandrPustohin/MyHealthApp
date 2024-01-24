@@ -71,6 +71,7 @@ public class AddHealthInfo extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
                 Intent intent = new Intent(AddHealthInfo.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
 
             }
