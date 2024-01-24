@@ -19,7 +19,9 @@ import android.widget.TimePicker;
 
 import com.example.myhealthapp.data.DataBaseHandler;
 import com.example.myhealthapp.model.HealthInfoItem;
+import com.example.myhealthapp.utils.DateTransform;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +31,9 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class AddHealthInfo extends AppCompatActivity {
+
     Calendar dateAndTime= Calendar.getInstance();
+
     private TextView date;
     private TextView time;
     private Spinner spinner;
@@ -44,11 +48,8 @@ public class AddHealthInfo extends AppCompatActivity {
         date = findViewById(R.id.data);
         time = findViewById(R.id.time);
         Date currentDT = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("DD.MM.YY");
-        date.setText(df.format(currentDT));
-
-        SimpleDateFormat dft = new SimpleDateFormat("HH:mm");
-        time.setText(dft.format(currentDT.getTime()));
+        date.setText(DateTransform.DATE_FORMAT.format(currentDT));
+        time.setText(DateTransform.TIME_FORMAT.format(currentDT.getTime()));
 
         spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter =
@@ -64,7 +65,11 @@ public class AddHealthInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                dbh.addInfo(getInfo());
+                try {
+                    dbh.addInfo(getInfo());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
                 Intent intent = new Intent(AddHealthInfo.this, MainActivity.class);
                 startActivity(intent);
 
@@ -74,7 +79,7 @@ public class AddHealthInfo extends AppCompatActivity {
     }
     private HealthInfoItem getInfo(){
         HealthInfoItem hi = new HealthInfoItem();
-        hi.setTextDate(date.getText()+" "+time.getText());
+        hi.setTextDate(DateTransform.UNIX_DATE_TIME.format(dateAndTime.getTime()));
         hi.setTextType(spinner.getSelectedItem().toString());
         hi.setTextInfo(info.getText().toString());
         return hi;
@@ -100,8 +105,7 @@ public class AddHealthInfo extends AppCompatActivity {
     }
     // установка начальных даты и времени
     private void setInitialDate() {
-        SimpleDateFormat df = new SimpleDateFormat("DD.MM.YY");
-        date.setText(df.format(dateAndTime.getTimeInMillis()));
+        date.setText(DateTransform.DATE_FORMAT.format(dateAndTime.getTimeInMillis()));
         /*date.setText(DateUtils.formatDateTime(this,
                 dateAndTime.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR
@@ -109,8 +113,7 @@ public class AddHealthInfo extends AppCompatActivity {
 
     }
     private void setInitialTime() {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-        time.setText(df.format(dateAndTime.getTimeInMillis()));
+        time.setText(DateTransform.TIME_FORMAT.format(dateAndTime.getTimeInMillis()));
         /*time.setText(DateUtils.formatDateTime(this,
                 dateAndTime.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_TIME |DateUtils.FORMAT_ABBREV_TIME));*/

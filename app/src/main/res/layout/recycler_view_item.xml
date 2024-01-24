@@ -43,7 +43,6 @@
             android:layout_height="35dp"
             android:layout_alignBottom="@+id/textTypeCard"
             android:layout_marginStart="0dp"
-            android:layout_marginLeft="104dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/textTypeCard"
@@ -59,13 +58,12 @@
             android:layout_height="35dp"
             android:layout_alignBottom="@+id/textTypeCard"
             android:layout_marginStart="0dp"
-            android:layout_marginLeft="104dp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/textInfo"
             android:gravity="bottom|center"
             android:text="мм рт.ст"
             android:textColor="@android:color/black"
-            android:textSize="16dp"
+            android:textSize="15dp"
             android:textStyle="italic" />
     </RelativeLayout>
 

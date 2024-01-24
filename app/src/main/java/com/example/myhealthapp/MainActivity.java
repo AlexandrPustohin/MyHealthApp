@@ -51,15 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
         setRecycler();
 
-        /*dbh.addType(new Type("Давление", "мм рт.ст"));
-        dbh.addType(new Type("Глюкоза", "ммоль/л"));
-        dbh.addType(new Type("Температура", "С"));*/
-        //Type type = dbh.getTypeByName("Давление");
-        //Log.d("Type:  ", type.toString());
-        //dbh.addInfo(new HealthInfoItem("01/01/2024 08:00", "Давление","140/90"));
-        /*for (HealthInfoItem info: dbh.getAllInfo()) {
-            Log.d("Info:  ", info.toString());
-        }*/
+
 
     }
 
@@ -83,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_settings) {//настройки
             return true;
         }
-        //headerView.setText(item.getTitle());
+
         return super.onOptionsItemSelected(item);
     }
     private void setRecycler(){
@@ -106,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //смена курсора для обновления после сохранения в БД
+        //обновление после сохранения в БД
         setRecycler();
     }
 }

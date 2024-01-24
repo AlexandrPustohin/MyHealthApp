@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 
 import com.example.myhealthapp.model.HealthInfoItem;
 import com.example.myhealthapp.model.Type;
+import com.example.myhealthapp.utils.DateTransform;
 import com.example.myhealthapp.utils.Util;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         String CREATE_INFO_TABLE = "CREATE TABLE "+ Util.TABLE_NAME_INFO + " ( "
                 + Util.INFO_ID+ " INTEGER PRIMARY KEY, "
-                + Util.INFO_DATA+ " TEXT,"
+                + Util.INFO_DATA+ " INTEGER,"
                 + Util.INFO_TYPE+ " TEXT,"
                 + Util.INFO_INFO+ " TEXT )";
 
@@ -40,8 +42,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        //TODO
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Util.TABLE_NAME_INFO );
+        String CREATE_INFO_TABLE = "CREATE TABLE "+ Util.TABLE_NAME_INFO + " ( "
+                + Util.INFO_ID+ " INTEGER PRIMARY KEY, "
+                + Util.INFO_DATA+ " INTEGER,"
+                + Util.INFO_TYPE+ " TEXT,"
+                + Util.INFO_INFO+ " TEXT )";
+
+        sqLiteDatabase.execSQL(CREATE_INFO_TABLE);
     }
 
     public void addType(Type type){
@@ -109,14 +118,22 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return arrayListType;
     }
 
-    public void addInfo(HealthInfoItem infoItem){
+    public void addInfo(HealthInfoItem infoItem) throws ParseException {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        /*
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Util.INFO_DATA, infoItem.getTextDate());
+        contentValues.put(Util.INFO_DATA, DateTransform.getMilsFromDate(infoItem.getTextDate()));
         contentValues.put(Util.INFO_TYPE, infoItem.getTextType());
-        contentValues.put(Util.INFO_INFO,infoItem.getTextInfo());
-        db.insert(Util.TABLE_NAME_INFO,null, contentValues);
+        contentValues.put(Util.INFO_INFO, infoItem.getTextInfo());
+        db.insert(Util.TABLE_NAME_INFO,null, contentValues);*/
+        String inquery = "INSERT INTO "+ Util.TABLE_NAME_INFO+"( "
+                + Util.INFO_DATA +" , "
+                + Util.INFO_TYPE +" , "
+                + Util.INFO_INFO +") VALUES ( "
+                + " strftime('%s', '"+ infoItem.getTextDate()+"')  ,'"
+                + infoItem.getTextType() +"' ,'"
+                + infoItem.getTextInfo()+"' )";
+        db.execSQL(inquery);
         db.close();
     }
     public List<HealthInfoItem> getAllInfo(){
@@ -151,22 +168,22 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public List<HealthInfoItem> getAllInfoWithMeasurement(){
         ArrayList<HealthInfoItem> listHealth = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();//datetime(hi.data, 'unixepoch')
         String query = "select hi.id as id" +
-                ", hi.data as data" +
+                ", strftime('%d.%m.%Y %H:%M',datetime(hi.data, 'unixepoch')) as data" +
                 ", hi.type as type" +
                 ", hi.info as info" +
                 ", t.description as description " +
                 " from "+ Util.TABLE_NAME_INFO + " as hi "+
                 " inner join "+ Util.TABLE_NAME_TYPES+ " as t on ( t." +Util.TYPE_NAME + " = hi." +
-                Util.INFO_TYPE+" )" ;
+                Util.INFO_TYPE+" ) " ;
 
         Log.d("sql: ", query);
 
         Cursor cursor = db.rawQuery(query, null);
 
-        String table = "health_info AS hi inner join types AS t on t.description = hi.type";
-        String columns[] = { "hi.id", "hi.data", "hi.type", "hi.info", "t.description" };
+        //String table = "health_info AS hi inner join types AS t on t.description = hi.type";
+        //String columns[] = { "hi.id", "hi.data", "hi.type", "hi.info", "t.description" };
         //String selection = "salary < ?";
         //String[] selectionArgs = {"12000"};
         //Cursor cursor = db.query(table, columns, null, null, null, null, null);

@@ -1,7 +1,7 @@
 package com.example.myhealthapp.utils;
 
 public class Util {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 9;
     public static final String DATABASE_NAME = "healthDB";
     public static final String TABLE_NAME_TYPES = "types";
     public static final String TABLE_NAME_INFO = "health_info";
