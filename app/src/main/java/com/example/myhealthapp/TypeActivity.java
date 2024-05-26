@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.myhealthapp.data.DataBaseHandler;
+import com.example.myhealthapp.model.Type;
 
 import java.util.ArrayList;
 
@@ -33,12 +34,15 @@ public class TypeActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         adapter = getAdapter();
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
     }
     private RecyclerViewAdapterType getAdapter(){
-        return new RecyclerViewAdapterType(new ArrayList<>(dbh.getAllTypes()));
+
+        RecyclerViewAdapterType adapterType = new RecyclerViewAdapterType(new ArrayList<>(dbh.getAllTypes()), this);
+        return  adapterType;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

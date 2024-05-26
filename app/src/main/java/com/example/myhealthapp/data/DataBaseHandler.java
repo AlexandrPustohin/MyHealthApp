@@ -172,7 +172,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 " inner join "+ Util.TABLE_NAME_TYPES+ " as t on ( t." +Util.TYPE_NAME + " = hi." +
                 Util.INFO_TYPE+" ) order by hi.data desc" ;
 
-        Log.d("sql: ", query);
+        //Log.d("sql: ", query);
 
         Cursor cursor = db.rawQuery(query, null);
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,7 +20,9 @@ public class AddTypeActivity extends AppCompatActivity {
     private TextView description;
     private Button btnAddType;
     private DataBaseHandler dbh;
-
+    private String type;
+    private String desc;
+    private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,19 +33,33 @@ public class AddTypeActivity extends AppCompatActivity {
         description = findViewById(R.id.measurement_type);
 
         btnAddType = findViewById(R.id.btn_save_type);
+        Intent intent = getIntent();
+        if(intent!=null){
+            type = intent.getStringExtra("type");
+            desc = intent.getStringExtra("desc");
+            id = intent.getIntExtra("id",0);
+        }
+        name.setText(type);
+        description.setText(desc);
         btnAddType.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {//Глюкоза
-                if(typeExist(name.getText().toString())){
+            public void onClick(View view) {
+
+                if(type==null && typeExist(name.getText().toString())){
                     showToast("Уже есть такое измерение!");
-                } else {
+                } else if (type==null){
                     dbh.addType(getInfo());
                     Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                } else {
+                    showToast("Изменить тип измерения..."+id);
                 }
             }
         });
+
+
+
     }
 
     private void showToast(String text){
