@@ -70,14 +70,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
         return updateCount;
     }
-    public int deleteType(Type type){
+    public void deleteType(Type type){
         SQLiteDatabase db = this.getWritableDatabase();
-
-
-        return db.delete(Util.TABLE_NAME_TYPES
+        db.delete(Util.TABLE_NAME_TYPES
                 , Util.TYPE_ID+"=?"
                 , new String[]{String.valueOf(type.getId())} );
-
+        db.close();
     }
 
 
