@@ -1,6 +1,7 @@
 package com.example.myhealthapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,6 +62,9 @@ public class AddTypeActivity extends AppCompatActivity {
             }
         });
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.type_add);
+        setSupportActionBar(toolbar);
     }
     private void back(){
         Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);

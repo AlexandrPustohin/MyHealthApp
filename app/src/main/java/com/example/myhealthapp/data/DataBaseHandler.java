@@ -197,12 +197,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, null);
 
-        //String table = "health_info AS hi inner join types AS t on t.description = hi.type";
-        //String columns[] = { "hi.id", "hi.data", "hi.type", "hi.info", "t.description" };
-        //String selection = "salary < ?";
-        //String[] selectionArgs = {"12000"};
-        //Cursor cursor = db.query(table, columns, null, null, null, null, null);
-
         if (cursor!=null){
             while (cursor.moveToNext()){
                 listHealth.add(new HealthInfoItem(
@@ -215,5 +209,27 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         db.close();
         return listHealth;
+    }
+
+    public void deleteInfo(HealthInfoItem hi){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Util.TABLE_NAME_INFO
+                , Util.INFO_ID+"=?"
+                , new String[]{String.valueOf(hi.getId())} );
+        db.close();
+    }
+    public int updateInfo(HealthInfoItem hi){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String inquery = "UPDATE "+ Util.TABLE_NAME_INFO+" SET "
+                + Util.INFO_DATA +" = " + " strftime('%s', '"+ hi.getTextDate()+"')  ,"
+                + Util.INFO_TYPE +" = '" + hi.getTextType() +"' ,"
+                + Util.INFO_INFO +" = '" + hi.getTextInfo()+"' "
+                + "WHERE "+Util.INFO_ID+" = "+hi.getId();
+
+        db.execSQL(inquery);
+        db.close();
+
+        return 1;
     }
 }

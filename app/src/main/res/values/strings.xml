@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">MyHealthApp</string>
+    <string name="app_name">Дневник измерений</string>
     <string name="text_press">Давление</string>
+    <string name="type_m">Виды измерений</string>
+    <string name="type_add">Вид измерений</string>
 </resources>

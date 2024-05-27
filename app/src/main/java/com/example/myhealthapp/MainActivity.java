@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
     }
     private RecyclerViewAdapter getAdapter(){
-        return new RecyclerViewAdapter(new ArrayList<>(dbh.getAllInfoWithMeasurement()));
+        return new RecyclerViewAdapter(new ArrayList<>(dbh.getAllInfoWithMeasurement()), this);
     }
     @Override
     protected void onRestart() {

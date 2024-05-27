@@ -21,6 +21,7 @@ import com.example.myhealthapp.data.DataBaseHandler;
 import com.example.myhealthapp.model.HealthInfoItem;
 import com.example.myhealthapp.utils.DateTransform;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 public class AddHealthInfo extends AppCompatActivity {
 
     Calendar dateAndTime= Calendar.getInstance();
-
+    private HealthInfoItem temphi;
     private TextView date;
     private TextView time;
     private Spinner spinner;
@@ -58,15 +59,43 @@ public class AddHealthInfo extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
         spinner.setAdapter(adapter);
-
         info = findViewById(R.id.info);
+
+        Intent intent = getIntent();
+        if(intent!=null && intent.getStringExtra("date")!=null){
+            //  "26.05.2024 11:35"
+
+            String [] d = intent.getStringExtra("date").split(" ")[0].split("\\.");
+            String [] t = intent.getStringExtra("date").split(" ")[1].split(":");
+            dateAndTime.set(Integer.parseInt(d[2])
+                    ,Integer.parseInt(d[1])-1
+                    , Integer.parseInt(d[0])
+                    , Integer.parseInt(t[0])
+                    ,Integer.parseInt(t[1]));
+
+            date.setText(DateTransform.DATE_FORMAT.format(dateAndTime.getTimeInMillis()));
+            time.setText(DateTransform.TIME_FORMAT.format(dateAndTime.getTimeInMillis()));
+        }
+        if(intent!=null && intent.getStringExtra("type")!=null) {
+            spinner.setSelection(getArrayType().indexOf(intent.getStringExtra("type")));
+        }
+        if (intent!=null && intent.getStringExtra("info")!=null) {
+            info.setText(intent.getStringExtra("info"));
+        }
+
         btnSave = findViewById(R.id.button);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try {
-                    dbh.addInfo(getInfo());
+                    if(intent!=null && intent.getStringExtra("id")!=null){
+                        temphi = getInfo();
+                        temphi.setId(Integer.parseInt(intent.getStringExtra("id")));
+                        dbh.updateInfo(temphi);
+                    } else {
+                        dbh.addInfo(getInfo());
+                    }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -107,17 +136,12 @@ public class AddHealthInfo extends AppCompatActivity {
     // установка начальных даты и времени
     private void setInitialDate() {
         date.setText(DateTransform.DATE_FORMAT.format(dateAndTime.getTimeInMillis()));
-        /*date.setText(DateUtils.formatDateTime(this,
-                dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR
-                        ));*/
+
 
     }
     private void setInitialTime() {
         time.setText(DateTransform.TIME_FORMAT.format(dateAndTime.getTimeInMillis()));
-        /*time.setText(DateUtils.formatDateTime(this,
-                dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_TIME |DateUtils.FORMAT_ABBREV_TIME));*/
+
     }
     // установка обработчика выбора времени
     TimePickerDialog.OnTimeSetListener t=new TimePickerDialog.OnTimeSetListener() {

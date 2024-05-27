@@ -26,6 +26,7 @@ public class TypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_type);
         dbh = new DataBaseHandler(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.type_m);
         setSupportActionBar(toolbar);
     }
 
