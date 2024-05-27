@@ -49,19 +49,24 @@ public class AddTypeActivity extends AppCompatActivity {
                     showToast("Уже есть такое измерение!");
                 } else if (type==null){
                     dbh.addType(getInfo());
-                    Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
+                    back();
                 } else {
-                    showToast("Изменить тип измерения..."+id);
+
+                    Type upType = getInfo();
+                    upType.setId(id);
+                    int updateRows = dbh.updateType(upType);
+                    showToast("Измения сохранены.");
+
                 }
             }
         });
 
-
-
     }
-
+    private void back(){
+        Intent intent = new Intent(AddTypeActivity.this, TypeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
     private void showToast(String text){
         Toast toast = Toast.makeText(this,text,Toast.LENGTH_LONG);
         toast.show();

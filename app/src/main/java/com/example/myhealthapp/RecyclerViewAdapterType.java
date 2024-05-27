@@ -65,7 +65,7 @@ public class RecyclerViewAdapterType extends RecyclerView.Adapter<RecyclerViewAd
         public void onClick(View view) {
             Type type = arrayList.get(getAdapterPosition());
             Intent intent = new Intent(context, AddTypeActivity.class);
-            Log.d("type.getId(): ", ""+type);
+            //Log.d("type.getId(): ", ""+type);
             intent.putExtra("id", type.getId());
             intent.putExtra("type", type.getName());
             intent.putExtra("desc", type.getDescription());

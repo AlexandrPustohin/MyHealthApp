@@ -58,6 +58,29 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public int updateType(Type type){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Util.TYPE_NAME, type.getName());
+        contentValues.put(Util.TYPE_DESCRIPTION, type.getDescription());
+        int updateCount = db.update(Util.TABLE_NAME_TYPES,contentValues
+                        , Util.TYPE_ID+"=?"
+                        , new String[]{String.valueOf(type.getId())} );
+        db.close();
+        return updateCount;
+    }
+    public int deleteType(Type type){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        return db.delete(Util.TABLE_NAME_TYPES
+                , Util.TYPE_ID+"=?"
+                , new String[]{String.valueOf(type.getId())} );
+
+    }
+
+
     public Type getTypeByName(String name){
         SQLiteDatabase db = this.getReadableDatabase();
 
