@@ -108,11 +108,10 @@ public class AddHealthInfo extends AppCompatActivity {
 
     }
     private HealthInfoItem getInfo(){
-        HealthInfoItem hi = new HealthInfoItem();
-        hi.setTextDate(DateTransform.UNIX_DATE_TIME.format(dateAndTime.getTime()));
-        hi.setTextType(spinner.getSelectedItem().toString());
-        hi.setTextInfo(info.getText().toString());
-        return hi;
+        HealthInfoItem hi = new HealthInfoItem(DateTransform.UNIX_DATE_TIME.format(dateAndTime.getTime())
+                ,dbh.getTypeByName(spinner.getSelectedItem().toString()).getId()
+                ,info.getText().toString());
+         return hi;
     }
     private ArrayList<String> getArrayType(){
         return dbh.getAllTypes().stream().map(t->t.getName()).collect(Collectors.toCollection(ArrayList::new));

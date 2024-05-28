@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //и данные элемента
         holder.date.setText(healthInfoItem.getTextDate());
         holder.info.setText(healthInfoItem.getTextInfo());
-        holder.type.setText(healthInfoItem.getTextType());
+        holder.type.setText(dbh.getTypeById(healthInfoItem.getIdType()).getName());
         holder.descr.setText(healthInfoItem.getTextDescr());
         holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             intent.putExtra("id", String.valueOf(healthInfoItem.getId()));
             intent.putExtra("date", healthInfoItem.getTextDate());
             intent.putExtra("info", healthInfoItem.getTextInfo());
-            intent.putExtra("type", healthInfoItem.getTextType());
+            intent.putExtra("type", healthInfoItem.getIdType());
             context.startActivity(intent);
         }
     }

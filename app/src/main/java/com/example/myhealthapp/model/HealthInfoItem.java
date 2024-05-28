@@ -3,31 +3,31 @@ package com.example.myhealthapp.model;
 public class HealthInfoItem {
     private int id;
     private String textDate; //дата строкой
-    private String textType; //тип показания
+    private int idType; //тип показания
     private String textInfo;//значение строкой
     private String textDescr;
 
     public HealthInfoItem() {
     }
 
-    public HealthInfoItem(int id, String textDate, String textType, String textInfo,String textDescr) {
+    public HealthInfoItem(int id, String textDate, int idType, String textInfo,String textDescr) {
         this.id = id;
         this.textDate = textDate;
-        this.textType = textType;
+        this.idType = idType;
         this.textInfo = textInfo;
         this.textDescr = textDescr;
     }
 
-    public HealthInfoItem(String textDate, String textType, String textInfo, String textDescr) {
+    public HealthInfoItem(String textDate, int idType, String textInfo, String textDescr) {
         this.textDate = textDate;
         this.textInfo = textInfo;
-        this.textType = textType;
+        this.idType = idType;
         this.textDescr = textDescr;
     }
 
-    public HealthInfoItem(String textDate, String textType, String textInfo) {
+    public HealthInfoItem(String textDate, int idType, String textInfo) {
         this.textDate = textDate;
-        this.textType = textType;
+        this.idType = idType;
         this.textInfo = textInfo;
     }
 
@@ -39,12 +39,12 @@ public class HealthInfoItem {
         this.id = id;
     }
 
-    public String getTextType() {
-        return textType;
+    public int getIdType() {
+        return idType;
     }
 
-    public void setTextType(String textType) {
-        this.textType = textType;
+    public void setIdType(int textType) {
+        this.idType = idType;
     }
 
     public String getTextDate() {
@@ -76,7 +76,7 @@ public class HealthInfoItem {
         return "Показатель" +
                 " № " + id +
                 ", дата " + textDate +
-                ", тип " + textType +
+                ", тип " + idType +
                 ", значение: " + textInfo ;
     }
 }

@@ -34,7 +34,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         String CREATE_INFO_TABLE = "CREATE TABLE "+ Util.TABLE_NAME_INFO + " ( "
                 + Util.INFO_ID+ " INTEGER PRIMARY KEY, "
                 + Util.INFO_DATA+ " INTEGER,"
-                + Util.INFO_TYPE+ " TEXT,"
+                + Util.INFO_TYPE+ " INTEGER,"
                 + Util.INFO_INFO+ " TEXT )";
 
         sqLiteDatabase.execSQL(CREATE_INFO_TABLE);
@@ -105,6 +105,32 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return type;
     }
 
+    public Type getTypeById(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(Util.TABLE_NAME_TYPES,
+                new String[]{
+                        Util.TYPE_ID
+                        ,  Util.TYPE_NAME
+                        ,  Util.TYPE_DESCRIPTION
+                },
+                Util.TYPE_ID+"=?"
+                ,  new String[]{String.valueOf(id)}
+                , null
+                ,  null
+                , null
+                ,   null
+        );
+        if(cursor!=null){
+            cursor.moveToFirst();
+        }
+        Type type = new Type(Integer.parseInt(cursor.getString(0))
+                , cursor.getString(1)
+                , cursor.getString(2) );
+        db.close();
+        return type;
+    }
+
     public List<Type> getAllTypes(){
         ArrayList<Type> arrayListType = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -146,7 +172,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + Util.INFO_TYPE +" , "
                 + Util.INFO_INFO +") VALUES ( "
                 + " strftime('%s', '"+ infoItem.getTextDate()+"')  ,'"
-                + infoItem.getTextType() +"' ,'"
+                + infoItem.getIdType() +"' ,'"
                 + infoItem.getTextInfo()+"' )";
         db.execSQL(inquery);
         db.close();
@@ -173,7 +199,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             while (cursor.moveToNext()){
                 listHealth.add(new HealthInfoItem(Integer.parseInt(cursor.getString(0))
                         , cursor.getString(1)
-                        , cursor.getString(2)
+                        , cursor.getInt(2)
                         , cursor.getString(3)
                         , ""));
             }
@@ -190,7 +216,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 ", hi.info as info" +
                 ", t.description as description " +
                 " from "+ Util.TABLE_NAME_INFO + " as hi "+
-                " inner join "+ Util.TABLE_NAME_TYPES+ " as t on ( t." +Util.TYPE_NAME + " = hi." +
+                " inner join "+ Util.TABLE_NAME_TYPES+ " as t on ( t." +Util.TYPE_ID + " = hi." +
                 Util.INFO_TYPE+" ) order by hi.data desc" ;
 
         //Log.d("sql: ", query);
@@ -202,7 +228,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 listHealth.add(new HealthInfoItem(
                         Integer.parseInt(cursor.getString(0))
                         , cursor.getString(1)
-                        , cursor.getString(2)
+                        , cursor.getInt(2)
                         , cursor.getString(3)
                         , cursor.getString(4)));
             }
@@ -223,7 +249,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         String inquery = "UPDATE "+ Util.TABLE_NAME_INFO+" SET "
                 + Util.INFO_DATA +" = " + " strftime('%s', '"+ hi.getTextDate()+"')  ,"
-                + Util.INFO_TYPE +" = '" + hi.getTextType() +"' ,"
+                + Util.INFO_TYPE +" = '" + hi.getIdType() +"' ,"
                 + Util.INFO_INFO +" = '" + hi.getTextInfo()+"' "
                 + "WHERE "+Util.INFO_ID+" = "+hi.getId();
 
