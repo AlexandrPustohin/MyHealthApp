@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.reprts) {//отчеты
             return true;
+        } else if (id == R.id.filter) {//фильтры
+            //Intent intent = new Intent(MainActivity.this, FilterHealthInfo.class);
+            //startActivity(intent);
+            return true;
         } else if (id == R.id.action_settings) {//настройки
             return true;
         }

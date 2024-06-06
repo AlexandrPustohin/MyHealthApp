@@ -28,6 +28,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         String CREATE_TYPE_TABLE = "CREATE TABLE "+ Util.TABLE_NAME_TYPES + " ( "
                 + Util.TYPE_ID+ " INTEGER PRIMARY KEY, "
                 + Util.TYPE_NAME+ " TEXT,"
+                + Util.TYPE_CATEGORY+ " TEXT,"
                 + Util.TYPE_DESCRIPTION+ " TEXT )";
         sqLiteDatabase.execSQL(CREATE_TYPE_TABLE);
 
@@ -43,8 +44,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Util.TABLE_NAME_INFO );
-        onCreate(sqLiteDatabase);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Util.TABLE_NAME_INFO );
+        //onCreate(sqLiteDatabase);
+        //sqLiteDatabase.execSQL("ALTER TABLE " + Util.TABLE_NAME_TYPES +" ADD COLUMN "+
+         //            Util.TYPE_CATEGORY +" TEXT ");
     }
 
     public void addType(Type type){
@@ -63,6 +66,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(Util.TYPE_NAME, type.getName());
+        contentValues.put(Util.TYPE_CATEGORY, type.getCategory());
         contentValues.put(Util.TYPE_DESCRIPTION, type.getDescription());
         int updateCount = db.update(Util.TABLE_NAME_TYPES,contentValues
                         , Util.TYPE_ID+"=?"
@@ -78,7 +82,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public Type getTypeByName(String name){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -86,6 +89,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                                  new String[]{
                                             Util.TYPE_ID
                                          ,  Util.TYPE_NAME
+                                         ,  Util.TYPE_CATEGORY
                                          ,  Util.TYPE_DESCRIPTION
                                  },
                 Util.TYPE_NAME+"=?"
@@ -100,7 +104,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         Type type = new Type(Integer.parseInt(cursor.getString(0))
                             , cursor.getString(1)
-                            , cursor.getString(2) );
+                            , cursor.getString(2)
+                            , cursor.getString(3) );
         db.close();
         return type;
     }
@@ -112,6 +117,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 new String[]{
                         Util.TYPE_ID
                         ,  Util.TYPE_NAME
+                        ,  Util.TYPE_CATEGORY
                         ,  Util.TYPE_DESCRIPTION
                 },
                 Util.TYPE_ID+"=?"
@@ -126,7 +132,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         Type type = new Type(Integer.parseInt(cursor.getString(0))
                 , cursor.getString(1)
-                , cursor.getString(2) );
+                , cursor.getString(2)
+                , cursor.getString(3) );
         db.close();
         return type;
     }
@@ -139,6 +146,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 new String[]{
                         Util.TYPE_ID
                         ,  Util.TYPE_NAME
+                        ,  Util.TYPE_CATEGORY
                         ,  Util.TYPE_DESCRIPTION
                 },
                 null
@@ -152,7 +160,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             while (cursors.moveToNext()){
                 arrayListType.add(new Type(Integer.parseInt(cursors.getString(0))
                         , cursors.getString(1)
-                        , cursors.getString(2) ));
+                        , cursors.getString(2)
+                        , cursors.getString(3) ));
             }
         }
 
@@ -161,12 +170,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void addInfo(HealthInfoItem infoItem) throws ParseException {
         SQLiteDatabase db = this.getWritableDatabase();
-        /*
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Util.INFO_DATA, DateTransform.getMilsFromDate(infoItem.getTextDate()));
-        contentValues.put(Util.INFO_TYPE, infoItem.getTextType());
-        contentValues.put(Util.INFO_INFO, infoItem.getTextInfo());
-        db.insert(Util.TABLE_NAME_INFO,null, contentValues);*/
+
         String inquery = "INSERT INTO "+ Util.TABLE_NAME_INFO+"( "
                 + Util.INFO_DATA +" , "
                 + Util.INFO_TYPE +" , "

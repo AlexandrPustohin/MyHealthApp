@@ -5,16 +5,19 @@ public class Type {
     private String name;
     private String description;
 
+    private String category;
     public Type() {}
 
-    public Type(int id, String name, String description) {
+    public Type(int id, String name, String category, String description) {
         this.id = id;
         this.name = name;
+        this.category = category;
         this.description = description;
     }
 
-    public Type(String name, String description) {
+    public Type(String name, String category,String description) {
         this.name = name;
+        this.category = category;
         this.description = description;
     }
 
@@ -34,6 +37,14 @@ public class Type {
         this.name = name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -47,6 +58,7 @@ public class Type {
         return "Тип:" +
                 "№ " + id +
                 " " + name +
+                " " + category +
                 " " + description ;
     }
 }

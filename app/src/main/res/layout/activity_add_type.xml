@@ -22,7 +22,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Вид измерения"
+            android:text="Наименование измерения"
             android:textAlignment="center" />
         <EditText
             android:id="@+id/type_name"
@@ -31,6 +31,22 @@
             android:ems="10"
             android:inputType="text"
             android:textSize="48sp" />
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Категория измерения"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/type_categorye"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="48sp" />
+
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"

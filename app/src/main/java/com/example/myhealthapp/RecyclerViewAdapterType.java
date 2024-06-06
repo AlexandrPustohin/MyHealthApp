@@ -104,6 +104,7 @@ public class RecyclerViewAdapterType extends RecyclerView.Adapter<RecyclerViewAd
             //Log.d("type.getId(): ", ""+type);
             intent.putExtra("id", type.getId());
             intent.putExtra("type", type.getName());
+            intent.putExtra("category", type.getCategory());
             intent.putExtra("desc", type.getDescription());
             context.startActivity(intent);
         }
